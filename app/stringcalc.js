@@ -1,3 +1,5 @@
+import {tap} from 'Ramda';
+
 const toIntOne = (a) => a === "" ? 0 : parseInt(a);
 const toInt = (array) => array.map(toIntOne);
 
@@ -36,17 +38,17 @@ export default class StringCalculator {
         const split = getSplitterFn(delimiters);
         const clean = getCleanerFn(delimiters);
 
-        const getNumbers = pipe(
+        const add = pipe(
             extractBody,
             clean,
             split,
             toInt,
-            filter(lessThan(1000))
+            filter(lessThan(1000)),
+            tap(checkNegatives),
+            theSum
         );
 
-        const piecesInt = getNumbers(string);
-        checkNegatives(piecesInt);
-        return theSum(piecesInt);
+        return add(string);
     }
 }
 
