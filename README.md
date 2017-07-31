@@ -1,6 +1,6 @@
-# String Calculator 
+# String Calculator (functional js)
 
-This repo practices the String Calculator based on :
+This repo practices the String Calculator with functional javascript based on :
 
 http://osherove.com/tdd-kata-1/
 
