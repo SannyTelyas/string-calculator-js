@@ -25,6 +25,10 @@ const getCleanerFn = (delimiters) => (body) => body.trim().replace("\n", delimit
 const _pipe = (f, g) => (...args) => g(f(...args));
 const pipe = (...fns) => fns.reduce(_pipe);
 
+const filter = (fn) => (array) => array.filter(fn);
+
+const lessThan = (number) => (a) => a<number;
+
 export default class StringCalculator {
 
     add(string) {
@@ -36,7 +40,8 @@ export default class StringCalculator {
             extractBody,
             clean,
             split,
-            toInt
+            toInt,
+            filter(lessThan(1000))
         );
 
         const piecesInt = getNumbers(string);

@@ -10,6 +10,7 @@ const CASES = [
     ["should be able to use a different delimiter version 2", "//|\n2|3|5", 10],
     ["should be able to use a different delimiter with great length", "//[XZ]\n2XZ3XZ9", 14],
     ["should be able to use different delimiters", "//[XZ][|][m]\n2XZ3m9|4", 18],
+    ["should ignore numbers greater than 1000", "//[XZ][|][m]\n2XZ1003m9|4", 15],
 ];
 
 const EXCEPTION_CASES = [
