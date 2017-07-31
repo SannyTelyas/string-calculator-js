@@ -7,6 +7,8 @@ http://osherove.com/tdd-kata-1/
 It practices and uses concepts from @ggalmazor 
 twitch at: https://www.twitch.tv/videos/157749121
 
+I saw the video time ago, and now I'm trying to do it myself. Where will I get?
+
 ---
 
 What I did at this point:
