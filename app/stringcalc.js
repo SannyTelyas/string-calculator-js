@@ -1,10 +1,8 @@
-import {tap} from 'Ramda';
+import {tap, map, reduce, pipe} from 'Ramda';
 
-const toIntOne = (a) => a === "" ? 0 : parseInt(a);
-const toInt = (array) => array.map(toIntOne);
+const toInt = (a) => parseInt(a, 10);
 
 const sum = (a, b) => a + b;
-const theSum = (pieces) => pieces.reduce(sum, 0);
 const hasHeader = (string) => string.indexOf("//") === 0;
 const removeCorchet = (string) => string.replace("[", "").replace("]", "");
 const splitCorchets = (string) => string.split("][").map(removeCorchet);
@@ -24,9 +22,6 @@ const multipleSplit = (delimiters) => (string) => {
 };
 const clean = (delimiters) => (body) => body.trim().replace("\n", delimiters[0]);
 
-const _pipe = (f, g) => (...args) => g(f(...args));
-const pipe = (...fns) => fns.reduce(_pipe);
-
 const filter = (fn) => (array) => array.filter(fn);
 
 const lessThan = (number) => (a) => a < number;
@@ -36,15 +31,15 @@ const getDelimiters = (string) => hasHeader(string) ? extractDelimiters(string) 
 export default string => {
 
     const delimiters = getDelimiters(string);
-    
+
     const work = pipe(
         extractBody,
         clean(delimiters),
         multipleSplit(delimiters),
-        toInt,
+        map(toInt),
         filter(lessThan(1000)),
         tap(checkNegatives),
-        theSum
+        reduce(sum,0)
     );
 
     return work(string);
