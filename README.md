@@ -35,12 +35,12 @@ What I did at this point:
 
 ---
 
-Things I learnt / reflected on:
+Things I learnt / reflected on through this kata:
 
 - importing R into your project (ramdajs)
 - pipe function. What its use. When to use.
 - R.tap function. - http://ramdajs.com/docs/#tap
 - functional programming means exporting functions. Not classes :)
-
+- If not reusing, group functions and dont expose
 
 
