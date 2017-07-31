@@ -22,6 +22,9 @@ const getSplitterFn = (delimiters) => (string) => {
 };
 const getCleanerFn = (delimiters) => (body) => body.trim().replace("\n", delimiters[0]);
 
+const _pipe = (f, g) => (...args) => g(f(...args));
+const pipe = (...fns) => fns.reduce(_pipe);
+
 export default class StringCalculator {
 
     add(numbers) {
@@ -29,10 +32,14 @@ export default class StringCalculator {
         const split = getSplitterFn(delimiters);
         const clean = getCleanerFn(delimiters);
 
-        const body = extractBody(numbers);
-        const cleanBody = clean(body);
-        const pieces = split(cleanBody);
-        const piecesInt = toInt(pieces);
+        const getPiecesInt = pipe(
+            extractBody,
+            clean,
+            split,
+            toInt
+        );
+
+        const piecesInt = getPiecesInt(numbers);
         checkNegatives(piecesInt);
         return theSum(piecesInt);
     }
