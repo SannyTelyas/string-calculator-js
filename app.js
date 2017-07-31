@@ -1,4 +1,3 @@
-import Katayuno from './app/katayuno'
+import sc from './app/stringcalc'
 
-const katayuno = new Katayuno();
-console.log(katayuno.sum(2,4));
+console.log(sc("2,3,7"));
