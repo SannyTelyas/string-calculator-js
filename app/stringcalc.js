@@ -6,7 +6,7 @@ const toInt = (array) => array.map(toIntOne);
 const sum = (a, b) => a + b;
 const theSum = (pieces) => pieces.reduce(sum, 0);
 const hasHeader = (string) => string.indexOf("//") === 0;
-const removeCorchet = (string) => string.replace("[","").replace("]","");
+const removeCorchet = (string) => string.replace("[", "").replace("]", "");
 const splitCorchets = (string) => string.split("][").map(removeCorchet);
 
 const extractDelimiters = (string) => splitCorchets(string.substr(2, string.indexOf("\n") - 2));
@@ -18,37 +18,31 @@ const checkNegatives = (numbers) => {
     const negativePieces = numbers.filter(isNegative);
     if (negativePieces.length > 0) throw new Error("negatives not allowed: " + negativePieces.join(","));
 };
-const getSplitterFn = (delimiters) => (string) => {
-    const getRegExp = (delimiters) => new RegExp("["+delimiters.join("|")+"]");
+const multipleSplit = (delimiters) => (string) => {
+    const getRegExp = (delimiters) => new RegExp("[" + delimiters.join("|") + "]");
     return string.split(getRegExp(delimiters));
 };
-const getCleanerFn = (delimiters) => (body) => body.trim().replace("\n", delimiters[0]);
+const clean = (delimiters) => (body) => body.trim().replace("\n", delimiters[0]);
 
 const _pipe = (f, g) => (...args) => g(f(...args));
 const pipe = (...fns) => fns.reduce(_pipe);
 
 const filter = (fn) => (array) => array.filter(fn);
 
-const lessThan = (number) => (a) => a<number;
+const lessThan = (number) => (a) => a < number;
 
-export default class StringCalculator {
+const delimiters = (string) => hasHeader(string) ? extractDelimiters(string) : [","];
 
-    add(string) {
-        const delimiters = hasHeader(string) ? extractDelimiters(string) : [","];
-        const split = getSplitterFn(delimiters);
-        const clean = getCleanerFn(delimiters);
+export default string => {
+  const work = pipe(
+      extractBody,
+      clean(delimiters(string)),
+      multipleSplit(delimiters(string)),
+      toInt,
+      filter(lessThan(1000)),
+      tap(checkNegatives),
+      theSum
+  );
 
-        const add = pipe(
-            extractBody,
-            clean,
-            split,
-            toInt,
-            filter(lessThan(1000)),
-            tap(checkNegatives),
-            theSum
-        );
-
-        return add(string);
-    }
+  return work(string);
 }
-

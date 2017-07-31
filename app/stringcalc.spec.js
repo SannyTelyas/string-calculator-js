@@ -1,4 +1,4 @@
-import StringCalculator from './stringcalc'
+import stringCalculate from './stringcalc'
 
 const CASES = [
     ["should add empty string", "", 0],
@@ -22,8 +22,7 @@ const EXCEPTION_CASES = [
 describe("StringCalculator - sums", () => {
     CASES.forEach((data) => {
         it(data[0], () => {
-            const sc = new StringCalculator();
-            const result = sc.add(data[1]);
+            const result = stringCalculate(data[1]);
             expect(result).to.equal(data[2]);
         });
     });
@@ -33,8 +32,7 @@ describe("StringCalculator - sums", () => {
 describe("StringCalculator - fails", () => {
     EXCEPTION_CASES.forEach((data) => {
         it(data[0], () => {
-            const sc = new StringCalculator();
-            const fn = () => sc.add(data[1]);
+            const fn = () => stringCalculate(data[1]);
             expect(fn).to.throw(data[2]);
         });
     });

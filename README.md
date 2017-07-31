@@ -30,6 +30,7 @@ What I did at this point:
 - I applied the concept of "pipes" => https://vanslaars.io/post/create-pipe-function/ => I realize that there is this little extra effort I cannot apply because of checkNegatives => v2.0
 - I check twich video to check how to pipe the checkNegative function (I remember something about R having this)
 - I applied the R.tap function => v3.0
+- I exported the original class as a function => v4.0
 
 
 ---
@@ -39,5 +40,7 @@ Things I learnt / reflected on:
 - importing R into your project (ramdajs)
 - pipe function. What its use. When to use.
 - R.tap function. - http://ramdajs.com/docs/#tap
+- functional programming means exporting functions. Not classes :)
+
 
 
