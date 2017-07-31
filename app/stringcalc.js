@@ -27,19 +27,19 @@ const pipe = (...fns) => fns.reduce(_pipe);
 
 export default class StringCalculator {
 
-    add(numbers) {
-        const delimiters = hasHeader(numbers) ? extractDelimiters(numbers) : [","];
+    add(string) {
+        const delimiters = hasHeader(string) ? extractDelimiters(string) : [","];
         const split = getSplitterFn(delimiters);
         const clean = getCleanerFn(delimiters);
 
-        const getPiecesInt = pipe(
+        const getNumbers = pipe(
             extractBody,
             clean,
             split,
             toInt
         );
 
-        const piecesInt = getPiecesInt(numbers);
+        const piecesInt = getNumbers(string);
         checkNegatives(piecesInt);
         return theSum(piecesInt);
     }
