@@ -31,18 +31,21 @@ const filter = (fn) => (array) => array.filter(fn);
 
 const lessThan = (number) => (a) => a < number;
 
-const delimiters = (string) => hasHeader(string) ? extractDelimiters(string) : [","];
+const getDelimiters = (string) => hasHeader(string) ? extractDelimiters(string) : [","];
 
 export default string => {
-  const work = pipe(
-      extractBody,
-      clean(delimiters(string)),
-      multipleSplit(delimiters(string)),
-      toInt,
-      filter(lessThan(1000)),
-      tap(checkNegatives),
-      theSum
-  );
 
-  return work(string);
+    const delimiters = getDelimiters(string);
+    
+    const work = pipe(
+        extractBody,
+        clean(delimiters),
+        multipleSplit(delimiters),
+        toInt,
+        filter(lessThan(1000)),
+        tap(checkNegatives),
+        theSum
+    );
+
+    return work(string);
 }
