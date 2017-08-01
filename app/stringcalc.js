@@ -5,12 +5,11 @@ import {tap, map, reduce, pipe, filter, split} from 'Ramda';
 const hasHeader = (string) => string.startsWith("//");
 
 const getDelimiters = (string) => {
-    const cleanCorchets = removeChars("[]");
 
     const extractDelimiters = pipe(
         getStringBetween("//","\n"),
         split("]["),
-        map(cleanCorchets)
+        map(removeChars("[]"))
     );
 
     return hasHeader(string) ? extractDelimiters(string) : [","];
