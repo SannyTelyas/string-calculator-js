@@ -31,6 +31,7 @@ What I did at this point:
 - I check twich video to check how to pipe the checkNegative function (I remember something about R having this)
 - I applied the R.tap function => v3.0
 - I exported the original class as a function => v4.0
+- After @artolamola insight (https://twitter.com/artolamola/status/892090041396342784) => some major refactoring => v5.0
 
 
 ---
@@ -42,5 +43,5 @@ Things I learnt / reflected on through this kata:
 - R.tap function. - http://ramdajs.com/docs/#tap
 - functional programming means exporting functions. Not classes :)
 - If not reusing, group functions and dont expose
-
+- Make your functions in your "class" as specific to your domain as possible. Think about tinier common functions as horizontals, and include them from the class. (Thanks @artolamola - https://twitter.com/artolamola/status/892090041396342784)
 

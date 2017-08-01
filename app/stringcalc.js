@@ -1,35 +1,32 @@
-import {tap, map, reduce, pipe, filter} from 'Ramda';
+import {lessThan, sum} from './common/numbers';
+import {toInt, removeChars, getStringFrom, splitByAny, replaceAll, getStringBetween} from './common/strings';
+import {tap, map, reduce, pipe, filter, split} from 'Ramda';
 
-const toInt = (a) => parseInt(a, 10);
-const sum = (a, b) => a + b;
-const hasHeader = (string) => string.indexOf("//") === 0;
+const hasHeader = (string) => string.startsWith("//");
 
 const getDelimiters = (string) => {
-    const extractDelimiters = (string) => splitCorchets(string.substr(2, string.indexOf("\n") - 2));
-    const removeCorchet = (string) => string.replace("[", "").replace("]", "");
-    const splitCorchets = (string) => string.split("][").map(removeCorchet);
+    const cleanCorchets = removeChars("[]");
+
+    const extractDelimiters = pipe(
+        getStringBetween("//","\n"),
+        split("]["),
+        map(cleanCorchets)
+    );
+
     return hasHeader(string) ? extractDelimiters(string) : [","];
 };
 
 const extractBody = (text) => {
-    const extractBodyWhenHeader = (string) => string.substr(string.indexOf("\n"));
-    return hasHeader(text) ? extractBodyWhenHeader(text) : text;
+    const getBody = getStringFrom('\n');
+    return hasHeader(text) ? getBody(text) : text;
 };
 
 const checkNegatives = (numbers) => {
-    const isNegative = (number) => number < 0;
-    const negativePieces = numbers.filter(isNegative);
+    const negativePieces = numbers.filter(lessThan(0));
     if (negativePieces.length > 0) throw new Error("negatives not allowed: " + negativePieces.join(","));
 };
 
-const multipleSplit = (delimiters) => (string) => {
-    const getRegExp = (delimiters) => new RegExp("[" + delimiters.join("|") + "]");
-    return string.split(getRegExp(delimiters));
-};
-
-const clean = (delimiters) => (body) => body.trim().replace("\n", delimiters[0]);
-
-const lessThan = (number) => (a) => a < number;
+const clean = replaceAll("\n");
 
 export default string => {
 
@@ -37,8 +34,8 @@ export default string => {
 
     const work = pipe(
         extractBody,
-        clean(delimiters),
-        multipleSplit(delimiters),
+        clean,
+        splitByAny(delimiters),
         map(toInt),
         filter(lessThan(1000)),
         tap(checkNegatives),
